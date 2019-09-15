@@ -118,13 +118,17 @@ const result = instance.render(); // <p>Hello</p>
 
 为了防止XSS攻击，提高安全性。React 0.14使用Symbol标记每个React 元素（element），而JSON不支持Symbol。如果浏览器不支持 Symbols 怎么办。React仍然会加上 $$typeof 字段以保证一致性，但只是设置一个数字而已 —— 0xeac7（看起来像React）。
 
-## React.Component内部的setState()是如何更新DOM？
+## React.Component内部的setState()是如何更新DOM？
 
-React.Component类包含了DOM更新的逻辑吗？但是如果是这样的话，this.setState()又如何能在其他环境下使用呢？React Native app中的组件也是继承自React.Component。他们依然可以像我们在上面做的那样调用this.setState()，而且React Native渲染的是安卓和iOS原生的界面而不是DOM。
+React.Component类包含了DOM更新的逻辑吗？但是如果是这样的话，this.setState()又如何能在其他环境下使用呢？React Native app中的组件也是继承自React.Component。他们依然可以像我们在上面做的那样调用this.setState()，而且React Native渲染的是安卓和iOS原生的界面而不是DOM。
 
-React.Component以某种未知的方式将处理状态（state）更新的任务委托给了特定平台的代码。react包仅仅是让你使用 React 的特性，但是它完全不知道这些特性是如何实现的。而渲染器包(react-dom、react-native等)提供了React特性的实现以及平台特定的逻辑。这其中的有些代码是共享的(“协调器”)，但是这就涉及到各个渲染器的实现细节了。
+React.Component以某种未知的方式将处理状态（state）更新的任务委托给了特定平台的代码。react包仅仅是让你使用 React 的特性，但是它完全不知道这些特性是如何实现的。而渲染器包(react-dom、react-native等)提供了React特性的实现以及平台特定的逻辑。这其中的有些代码是共享的(“协调器”)，但是这就涉及到各个渲染器的实现细节了。
 
 ## React 事件处理方法需要 bind？
+
+- [@babel/plugin-proposal-class-properties](https://babeljs.io/docs/en/babel-plugin-proposal-class-properties)
+
+为了在回调中使用 `this`，这个绑定是必不可少的。
 
 **直接 bind this**
 
@@ -195,7 +199,7 @@ class Foo extends React.Component {
 
 **public class fields**
 
-这种 class fields还处于实验阶段，据我所知目前还没有被纳入标准，具体可见这里。
+这种 class fields还处于实验阶段，据我所知目前还没有被纳入标准，需要插件支持。
 
 ```jsx
 class Foo extends React.Component {
